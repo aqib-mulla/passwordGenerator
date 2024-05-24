@@ -8,10 +8,6 @@ import  helmet from 'helmet'
 import morgan from 'morgan';
 import path from "path";
 import { fileURLToPath } from 'url';
-import { Login } from './controllers/login.js';
-import { AdminLogin, createAccount, getTickets, getAllTickets, updateStatus, createAgent , getAgents} from './controllers/Register.js';
-import { createTicket } from './controllers/Register.js';
-import { updateAgent, AgentLogin, getAgentTickets, sendFile, downloadFile } from './controllers/Register.js';
 
 // CONFIGURATIONS
 const __filename = fileURLToPath(import.meta.url);
@@ -42,57 +38,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage});
 
 
-//User Login 
-app.post("/auth/login", Login);
 
-
-
-
-
-//Register
-app.post("/auth/ticket-register", createAccount);
-app.post("/auth/create-ticket", upload.single('attachment'), createTicket);
-app.get("/auth/tickets/:user", getTickets);
-
-//admin all tickets
-app.get("/auth/admin-tickets", getAllTickets);
-//admin update status
-app.put("/auth/update-ticket-status/:id", updateStatus);
-//Update the agent
-app.put("/auth/update-ticket-agent/:ticketId", updateAgent);
-
-//create-agents
-app.post("/auth/create-agent", createAgent);
-//get-agents
-app.get("/auth/tech-support-agents", getAgents);
-//get agent particular tickets
-app.get("/auth/agent-tickets/:user", getAgentTickets);
-//upload file
-app.post("/auth/upload-file/:ticketId", upload.single('file'), sendFile);
-
-//download file
-app.get('/auth/download-file/:ticketId', downloadFile);
-
-//Admin Login
-app.post("/auth/admin-login", AdminLogin);
-
-//Agent Login
-app.post("/auth/agent-login", AgentLogin);
-
-
-
-
-
-// MONGOOSE SETUP
-const PORT = process.env.PORT || 6001;
-mongoose.connect(process.env.MONGO_URL,{
-useNewUrlParser: true,
-useUnifiedTopology: true,
-})
-.then(()=>{
-app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
-})
-.catch((error)=> console.log(`${error} did not connect`))
 
 
 
