@@ -38,7 +38,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage});
 
-const PORT = 6001;
+const PORT = 3001;
 
 
 
